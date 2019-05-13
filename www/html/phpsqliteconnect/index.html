@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="styles/main.css" />
+
+		<link rel="icon" type="image/png" href="icons/engineer2.png" />
+		<title>PDC2017</title>
+	</head>
+	
+	<body>
+		<div class="container-fluid">
+
+		<!-- ===================================================================== -->
+		  <!-- NAVIGATION BAR -->
+		  <header>
+			<nav class="navbar navbar-expand-lg navbar-dark fixed-top text-primary">
+			  <a class="navbar-brand animated fadeIn" href="#">PDC2017 - NS: 000001</a>
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse justify-content-end animated fadeIn" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+				  <a class="nav-item nav-link active" href="#">Diagrama Fasorial<span class="sr-only">(current)</span></a>
+				  <a class="nav-item nav-link" href="wave.html">Formas de onda</a>
+				</div>
+			  </div>
+			</nav>
+		  </header>
+      
+		<!-- ===================================================================== -->
+		  <!-- PHASE DIAGRAM -->
+		  <div id="phaseDiagram" class="text-white">
+			<div class="row">
+			  <div class="col-md-4 col-sm-12">
+				  
+				<div class="fasorial"></div>
+				
+				<table class = "table table-hover table-bordered table-dark accTable">
+					<thead class="thead-light">
+					  <tr style="line-height: 15%">
+						<th colspan="3" scope="col" class="text-center">Acumuladores Trifásicos</th>
+					  </tr>
+					  <tr style="line-height: 25%">
+						<th scope="col" class="text-center">KVAh</th>
+						<th scope="col" class="text-center">KWh</th>
+						<th scope="col" class="text-center">KVARh</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr>
+						<td id="energiaAparente3P" class="text-center"></td>
+						<td id="energiaAtiva3P" class="text-center"></td>
+						<td id="energiaReativa3P" class="text-center"></td>
+					  </tr>
+					</tbody>
+				</table>
+			  </div>
+			  <div class="col-md-8 col-sm-12 valuesDisplay">
+				<table class = "table table-hover table-bordered table-dark">
+					<thead class="thead-light">
+					  <tr style="line-height: 25%">
+						<th scope="col">Grandeza</th>
+						<th scope="col" class="text-center" style="color:#c01818;">Linha AB</th>
+						<th scope="col" class="text-center" style="color:#18a018;">Linha BC</th>
+						<th scope="col" class="text-center" style="color:#186ce0;">Linha CA</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr>
+						<th scope="row">Magnitude de tensão [V]</th>
+						<td id="voltageMagnitude12" class="text-center"></td>
+						<td id="voltageMagnitude23" class="text-center"></td>
+						<td id="voltageMagnitude31" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Ângulo de tensão</th>
+						<td id="voltageAngle12" class="text-center"></td>
+						<td id="voltageAngle23" class="text-center"</td>
+						<td id="voltageAngle31" class="text-center"></td>
+					  </tr>
+					</tbody>
+					<!---->
+					<thead class="thead-light">
+					  <tr style="line-height: 25%">
+						<th scope="col">Grandeza</th>
+						<th scope="col" class="text-center" style="color:#c01818;">Fase A</th>
+						<th scope="col" class="text-center" style="color:#18a018;">Fase B</th>
+						<th scope="col" class="text-center" style="color:#186ce0;">Fase C</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr>
+						<th scope="row">Magnitude de tensão [V]</th>
+						<td id="voltageMagnitude1" class="text-center"></td>
+						<td id="voltageMagnitude2" class="text-center"></td>
+						<td id="voltageMagnitude3" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Ângulo de tensão</th>
+						<td id="voltageAngle1" class="text-center"></td>
+						<td id="voltageAngle2" class="text-center"></td>
+						<td id="voltageAngle3" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Magnitude de corrente [A]</th>
+						<td id="currentMagnitude1" class="text-center"></td>
+						<td id="currentMagnitude2" class="text-center"></td>
+						<td id="currentMagnitude3" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Ângulo de corrente</th>
+						<td id="currentAngle1" class="text-center"></td>
+						<td id="currentAngle2" class="text-center"></td>
+						<td id="currentAngle3" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Potência ativa [W]</th>
+						<td id="activePower1" class="text-center"></td>
+						<td id="activePower2" class="text-center"></td>
+						<td id="activePower3" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Potência reativa [Var]</th>
+						<td id="reactivePower1" class="text-center"></td>
+						<td id="reactivePower2" class="text-center"></td>
+						<td id="reactivePower3" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Potência aparente [VA]</th>
+						<td id="apparentPower1" class="text-center"></td>
+						<td id="apparentPower2" class="text-center"></td>
+						<td id="apparentPower3" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row">Fator de potência</th>
+						<td id="powerFactor1" class="text-center"></td>
+						<td id="powerFactor2" class="text-center"></td>
+						<td id="powerFactor3" class="text-center"></td>
+					  </tr>
+					</tbody>
+				</table>
+			  </div>
+			</div>
+		  </div>
+			
+		<!-- ===================================================================== -->
+		  <!-- GROUNDBAR -->
+		  <div id="groundBar" class="text-white">
+			<p>A representação visual do diagrama fasorial é uma cortesia da Way2 Tecnologia</p>
+		  </div>	
+			
+		</div>
+		
+		<!-- ===================================================================== -->
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	</body>
+
+
+	<!-- ===============From this point under is the javascript script============================= -->
+	<script type="text/javascript" src="sql.js"></script>
+	<script type="text/javascript" src="raphael.min.js"></script>
+	<script type="text/javascript" src="diagrama-fasorial.js"></script>
+	
+	<script type="text/javascript">
+		
+		var container = document.getElementsByClassName('fasorial')[0]; //$('.fasorial').get();
+		var fasorial = new DiagramaFasorial();
+		
+		var vetores = fasorial.init(container);
+		
+		setInterval(requestValues, 1000);
+		
+		function requestValues() {
+			var ip = location.host;
+			var xhr = new XMLHttpRequest();
+			
+			xhr.open('GET', 'http://'+ip+'/db/meterDB.db', true);
+			xhr.responseType = 'arraybuffer';
+			xhr.onload = updateFasorialValues;
+			xhr.send();
+		}
+		
+		function updateFasorialValues(event) {			
+			var uInt8Array = new Uint8Array(this.response);
+			var db = new SQL.Database(uInt8Array);
+			
+			var contPhaseVoltMagnitude = db.exec("SELECT Vmagnitude FROM meterPhasors");
+			var contPhaseVoltAngle = db.exec("SELECT Vangle FROM meterPhasors");
+			var contPhaseCurrMagnitude = db.exec("SELECT Cmagnitude FROM meterPhasors");
+			var contPhaseCurrAngle = db.exec("SELECT Cangle FROM meterPhasors");
+			
+			var contLineVoltMagnitude = db.exec("SELECT Vmagnitude FROM meterLinePhasors");
+			var contLineVoltAngle = db.exec("SELECT Vangle FROM meterLinePhasors");
+			
+			var contApparentPower = db.exec("SELECT ApparentPower FROM meterPowers");
+			var contActivePower = db.exec("SELECT ActivePower FROM meterPowers");
+			var contReactivePower = db.exec("SELECT ReactivePower FROM meterPowers");
+			var contPowerFactor = db.exec("SELECT PowerFactor FROM meterPowers");
+			
+			var contApparentEnergy = db.exec("SELECT eneApp FROM Accumulators");
+			var contActiveEnergy = db.exec("SELECT eneAct FROM Accumulators");
+			var contReactiveEnergy = db.exec("SELECT eneReact FROM Accumulators");
+			
+			var angle = {};
+			angle.va = contPhaseVoltAngle[0].values[0];
+			angle.vb = contPhaseVoltAngle[0].values[1];
+			angle.vc = contPhaseVoltAngle[0].values[2];
+			
+			angle.ia = contPhaseCurrAngle[0].values[0];
+			angle.ib = contPhaseCurrAngle[0].values[1];
+			angle.ic = contPhaseCurrAngle[0].values[2];
+			
+			angle.vab = contLineVoltAngle[0].values[0];
+			angle.vbc = contLineVoltAngle[0].values[1];
+			angle.vca = contLineVoltAngle[0].values[2];
+			
+			fasorial.rotate(vetores.va, angle.va);
+			fasorial.rotate(vetores.vb, angle.vb);
+			fasorial.rotate(vetores.vc, angle.vc);
+			
+			fasorial.rotate(vetores.vab, angle.vab);
+			fasorial.rotate(vetores.vbc, angle.vbc);
+			fasorial.rotate(vetores.vca, angle.vca);
+			
+			fasorial.rotate(vetores.ia, angle.ia);
+			fasorial.rotate(vetores.ib, angle.ib);
+			fasorial.rotate(vetores.ic, angle.ic);
+			
+			document.getElementById("voltageMagnitude12").innerHTML = contLineVoltMagnitude[0].values[0];
+			document.getElementById("voltageMagnitude23").innerHTML = contLineVoltMagnitude[0].values[1];
+			document.getElementById("voltageMagnitude31").innerHTML = contLineVoltMagnitude[0].values[2];
+			
+			document.getElementById("voltageAngle12").innerHTML = contLineVoltAngle[0].values[0];
+			document.getElementById("voltageAngle23").innerHTML = contLineVoltAngle[0].values[1];
+			document.getElementById("voltageAngle31").innerHTML = contLineVoltAngle[0].values[2];
+			
+			document.getElementById("voltageMagnitude1").innerHTML = contPhaseVoltMagnitude[0].values[0];
+			document.getElementById("voltageMagnitude2").innerHTML = contPhaseVoltMagnitude[0].values[1];
+			document.getElementById("voltageMagnitude3").innerHTML = contPhaseVoltMagnitude[0].values[2];
+			
+			document.getElementById("voltageAngle1").innerHTML = contPhaseVoltAngle[0].values[0];
+			document.getElementById("voltageAngle2").innerHTML = contPhaseVoltAngle[0].values[1];
+			document.getElementById("voltageAngle3").innerHTML = contPhaseVoltAngle[0].values[2];
+			
+			document.getElementById("currentMagnitude1").innerHTML = contPhaseCurrMagnitude[0].values[0];
+			document.getElementById("currentMagnitude2").innerHTML = contPhaseCurrMagnitude[0].values[1];
+			document.getElementById("currentMagnitude3").innerHTML = contPhaseCurrMagnitude[0].values[2];
+			
+			document.getElementById("currentAngle1").innerHTML = contPhaseCurrAngle[0].values[0];
+			document.getElementById("currentAngle2").innerHTML = contPhaseCurrAngle[0].values[1];
+			document.getElementById("currentAngle3").innerHTML = contPhaseCurrAngle[0].values[2];
+			
+			document.getElementById("apparentPower1").innerHTML = contApparentPower[0].values[0];
+			document.getElementById("apparentPower2").innerHTML = contApparentPower[0].values[1];
+			document.getElementById("apparentPower3").innerHTML = contApparentPower[0].values[2];
+			
+			document.getElementById("activePower1").innerHTML = contActivePower[0].values[0];
+			document.getElementById("activePower2").innerHTML = contActivePower[0].values[1];
+			document.getElementById("activePower3").innerHTML = contActivePower[0].values[2];
+			
+			document.getElementById("reactivePower1").innerHTML = contReactivePower[0].values[0];
+			document.getElementById("reactivePower2").innerHTML = contReactivePower[0].values[1];
+			document.getElementById("reactivePower3").innerHTML = contReactivePower[0].values[2];
+			
+			document.getElementById("powerFactor1").innerHTML = contPowerFactor[0].values[0];
+			document.getElementById("powerFactor2").innerHTML = contPowerFactor[0].values[1];
+			document.getElementById("powerFactor3").innerHTML = contPowerFactor[0].values[2];
+			
+			document.getElementById("energiaAparente3P").innerHTML = contApparentEnergy[0].values[0];
+			document.getElementById("energiaAtiva3P").innerHTML = contActiveEnergy[0].values[0];
+			document.getElementById("energiaReativa3P").innerHTML = contReactiveEnergy[0].values[0];
+			
+			db.close();
+		}
+		
+	</script>
+	
+</html>

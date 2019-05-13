@@ -1,0 +1,58 @@
+.container-fluid{
+	padding: 0;
+	margin: 0;
+	animation-duration: 3s;
+	animation-delay: 1s;
+	background-color: black;
+	height: 100%;
+}
+
+.navbar{
+	background-color:#222;
+	animation-duration: 1s;
+}
+
+.navbar-brand{
+	animation-delay: 1s;
+}
+
+.navbar-collapse{
+	animation-delay: 1s;
+}
+
+.lastItemMargin{
+	margin: 0 50px 0 0;
+}
+
+nav a{
+	color: white;
+}
+
+h1{
+	animation-delay: 1s;
+	animation-duration: 3s;
+	margin: 0;
+}
+
+h2{
+	animation-delay: 1s;
+	animation-duration: 3s;
+}
+
+#graphs{
+	padding: 70px 5% 43px 0;
+}
+
+.waveChart{
+	margin: 0;
+}
+
+.valuesDisplay{
+	padding: 5px 30px 0 0;
+}
+
+#groundBar{
+	background-color:#222;
+	padding: 2px 0 3px 10px;
+	margin: 0;
+}

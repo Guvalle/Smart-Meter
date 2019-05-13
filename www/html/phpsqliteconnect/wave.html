@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="styles/wave.css" />
+
+		<link rel="icon" type="image/png" href="icons/engineer2.png" />
+		<title>PDC2017</title>
+	</head>
+	
+	<body>
+		<div class="container-fluid">
+
+		<!-- ===================================================================== -->
+		  <!-- NAVIGATION BAR -->
+		  <header>
+			<nav class="navbar navbar-expand-lg navbar-dark fixed-top text-primary">
+			  <a class="navbar-brand animated fadeIn" href="#">PDC2017 - NS: 000001</a>
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse justify-content-end animated fadeIn" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+				  <a class="nav-item nav-link" href="index.html">Diagrama Fasorial</a>
+				  <a class="nav-item nav-link active" href="#">Formas de onda<span class="sr-only">(current)</span></a>
+				</div>
+			  </div>
+			</nav>
+		  </header>
+      
+		<!-- ===================================================================== -->
+		  <!-- GRAPHS -->
+		  <div id="graphs" class="text-white">
+			<div class="row">
+			  <div class="col-sm-10 waveChart">  
+				<div id="voltages_curve_chart" style="height: 300px"></div>
+			  </div>
+			  
+			  <div class="col-sm-2 valuesDisplay"><br><br>
+				<table class = "table table-hover table-bordered table-dark">
+					<tbody>
+					  <tr>
+						<th scope="row" style="width: 45%">Va (RMS)</th>
+						<td id="voltageMagnitude1" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row" style="width: 55%">Vb (RMS)</th>
+						<td id="voltageMagnitude2" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row" style="width: 45%">Vc (RMS)</th>
+						<td id="voltageMagnitude3" class="text-center"></td>
+					  </tr>
+					</tbody>
+				</table>
+			  </div>
+			</div>
+			
+			<div class="row">
+			  <div class="col-sm-10 waveChart"> 
+				<div id="currents_curve_chart" style="height: 300px"></div>
+			  </div>
+			  
+			  <div class="col-sm-2 valuesDisplay"><br><br>
+				<table class = "table table-hover table-bordered table-dark">
+					<tbody>
+					  <tr>
+						<th scope="row" style="width: 45%">Ia (RMS)</th>
+						<td id="currentMagnitude1" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row" style="width: 45%">Ib (RMS)</th>
+						<td id="currentMagnitude2" class="text-center"></td>
+					  </tr>
+					  <tr>
+						<th scope="row" style="width: 45%">Ic (RMS)</th>
+						<td id="currentMagnitude3" class="text-center"></td>
+					  </tr>
+					</tbody>
+				</table>
+			  </div>
+			</div>
+		  </div>
+			
+		<!-- ===================================================================== -->
+		  <!-- GROUNDBAR -->
+		  <div id="groundBar" class="text-white">
+			  <p></p>
+		  </div>	
+			
+		</div>
+		
+		<!-- ===================================================================== -->
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	</body>
+
+
+	<!-- ===============From this point under is the javascript script============================= -->
+	<script type="text/javascript" src="sql.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+	<script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+				
+		setInterval(requestValues, 1000);
+		
+		function requestValues() {
+			var ip = location.host;
+			var xhr = new XMLHttpRequest();
+			
+			xhr.open('GET', 'http://'+ip+'/db/meterDB.db', true);
+			xhr.responseType = 'arraybuffer';
+			xhr.onload = drawChart;
+			xhr.send();
+		}
+		
+		function drawChart(event) {		
+			var uInt8Array = new Uint8Array(this.response);
+			var db = new SQL.Database(uInt8Array);
+			var i = 0;
+			
+			var contIndex = db.exec("SELECT indexi FROM meterWaveSamples");
+			
+			//Le os dados de tensao
+			var contSampleVA = db.exec("SELECT samplesVa FROM meterWaveSamples");
+			var contSampleVB = db.exec("SELECT samplesVb FROM meterWaveSamples");
+			var contSampleVC = db.exec("SELECT samplesVc FROM meterWaveSamples");
+			var contPhaseVoltMagnitude = db.exec("SELECT Vmagnitude FROM meterPhasors");
+			
+			//Le os dados de corrente
+			var contSampleIA = db.exec("SELECT samplesIa FROM meterWaveSamples");
+			var contSampleIB = db.exec("SELECT samplesIb FROM meterWaveSamples");
+			var contSampleIC = db.exec("SELECT samplesIc FROM meterWaveSamples");
+			var contPhaseCurrMagnitude = db.exec("SELECT Cmagnitude FROM meterPhasors");
+			
+			//Controi o grafico de tensao
+			var voltageData = new google.visualization.DataTable();
+			voltageData.addColumn('number', 'sample');
+			voltageData.addColumn('number', 'Va');
+			voltageData.addColumn('number', 'Vb');
+			voltageData.addColumn('number', 'Vc');
+			for (i = 0; i<50; i++){
+			voltageData.addRows([
+				[parseInt(contIndex[0].values[i])-1, parseFloat(contSampleVA[0].values[i]), parseFloat(contSampleVB[0].values[i]), parseFloat(contSampleVC[0].values[i])]
+				]);
+			}
+			
+			var voltageOptions = {
+				backgroundColor: '#000000',
+				chartArea: { backgroundColor: { stroke: '#AAAAAA', strokeWidth: 2 } },
+				title: 'Voltage Waveforms',
+				titleTextStyle: {color: '#FFFFFF'},
+				curveType: 'function',
+				legend: {position: 'right', textStyle: {color: '#FFFFFF'}},
+				series:{
+					0: {color: '#9d261d'},
+					1: {color: '#46a546'},
+					2: {color: '#049cdb'}
+				},
+				vAxis: { 
+					title: '',
+					titleTextStyle: {color: '#FFFFFF'}
+				},
+				hAxis: { 
+					title: '',
+					titleTextStyle: {color: '#FFFFFF'},
+					viewWindow: { min: 0, max: 49}
+				}
+			};
+			var voltageChart = new google.visualization.LineChart(document.getElementById('voltages_curve_chart'));
+			voltageChart.draw(voltageData, voltageOptions);
+			document.getElementById("voltageMagnitude1").innerHTML = contPhaseVoltMagnitude[0].values[0];
+			document.getElementById("voltageMagnitude2").innerHTML = contPhaseVoltMagnitude[0].values[1];
+			document.getElementById("voltageMagnitude3").innerHTML = contPhaseVoltMagnitude[0].values[2];
+			
+			
+			//Constroi o grafico de correntes
+			var currentData = new google.visualization.DataTable();
+			currentData.addColumn('number', 'sample');
+			currentData.addColumn('number', 'Ia');
+			currentData.addColumn('number', 'Ib');
+			currentData.addColumn('number', 'Ic');
+			for (i = 0; i<50; i++){
+			currentData.addRows([
+				[parseInt(contIndex[0].values[i])-1, parseFloat(contSampleIA[0].values[i]), parseFloat(contSampleIB[0].values[i]), parseFloat(contSampleIC[0].values[i])]
+				]);
+			}
+			
+			var currentOptions = {
+				backgroundColor: '#000000', 
+				chartArea: { backgroundColor: { stroke: '#AAAAAA', strokeWidth: 2 } },
+				title: 'Current Waveforms',
+				titleTextStyle: {color: '#FFFFFF'},
+				curveType: 'function',
+				legend: {position: 'right', textStyle: {color: '#FFFFFF'}},
+				series:{
+					0: {color: '#dc4e44'},
+					1: {color: '#86cb86'},
+					2: {color: '#49c7fc'}
+				},
+				vAxis: { 
+					title: '',
+					titleTextStyle: {color: '#FFFFFF'}
+				},
+				hAxis: { 
+					title: '',
+					titleTextStyle: {color: '#FFFFFF'},
+					viewWindow: { min: 0, max: 49}
+				}
+			};
+			var currentChart = new google.visualization.LineChart(document.getElementById('currents_curve_chart'));
+			currentChart.draw(currentData, currentOptions);
+			document.getElementById("currentMagnitude1").innerHTML = contPhaseCurrMagnitude[0].values[0];
+			document.getElementById("currentMagnitude2").innerHTML = contPhaseCurrMagnitude[0].values[1];
+			document.getElementById("currentMagnitude3").innerHTML = contPhaseCurrMagnitude[0].values[2];
+			
+			db.close();
+		}
+		
+	</script>
+	
+</html>
