@@ -26,4 +26,4 @@ Here you can see some pictures of the designs for the hardware board and the fin
 ![powerMeterIm3](https://user-images.githubusercontent.com/47705676/131225167-a7f89f78-29c4-45d8-8f5f-f31b500c6514.jpg)
 
 ## Misc
-*The project was named PDC-2017 as a homage to the team I worked with at a company back then. The team's name was PDC and was composed by my mentor who was a graduated Electrical Engineer and helped me with some of the conceptual definitions of the project and 4 developers who helped me with the code. All of them taught me a lot.
+*The project was named PDC-2017 as a homage to the team I worked with at a company back then. The team's name was PDC and was composed by my mentor who was a graduated Electrical Engineer and helped me with some of the conceptual definitions of the project and 4 developers who helped me with the code. All of them taught me a lot.*
